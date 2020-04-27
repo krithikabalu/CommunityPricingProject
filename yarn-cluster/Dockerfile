@@ -17,15 +17,21 @@ RUN wget http://apachemirror.wuchna.com/spark/spark-2.4.5/spark-2.4.5-bin-hadoop
     mv spark-2.4.5-bin-hadoop2.7 /usr/local/spark && \
     rm spark-2.4.5-bin-hadoop2.7.tgz
 
+RUN wget http://apachemirror.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
+    tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
+    mv sqoop-1.4.7.bin__hadoop-2.6.0 /usr/lib/sqoop && \
+    rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+
 RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt update && apt install -y python
 
 # set environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 
 ENV HADOOP_HOME=/usr/local/hadoop 
 ENV SPARK_HOME=/usr/local/spark
+ENV SQOOP_HOME /usr/lib/sqoop
 ENV HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
 ENV LD_LIBRARY_PATH=/usr/local/hadoop/lib/native:$LD_LIBRARY_PATH
-ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:/usr/local/spark/bin
+ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:/usr/local/spark/bin:$SQOOP_HOME/bin
 
 # ssh without key
 RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
