@@ -1,11 +1,13 @@
 import datetime
 from random import randint, uniform
-
 from psycopg2 import Error, connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+global cost_dict
 global datetime_dict
 datetime_dict = {}
+cost_dict = {}
+
 def create_product_table(connection):
     cursor = connection.cursor()
     sql_str = "create table if not exists product (product_id VARCHAR(255) PRIMARY KEY ,name VARCHAR(255), description VARCHAR(255), " \
@@ -35,6 +37,8 @@ def insert_into_product_table(connection):
     records = []
     for index, product_name in enumerate(product_names):
         product_id = "p" + str(index)
+        cost = round(uniform(100, 5000), 2)
+        cost_dict[product_id] = cost
         datetime_dict[product_id] = (datetime.datetime.now() - datetime.timedelta(days=randint(1, 1000)))
         new_record = {'elasticity': elasticities[randint(0, len(elasticities) - 1)],
                       'competitive_intensity': competitive_intensities[
@@ -46,7 +50,7 @@ def insert_into_product_table(connection):
                       'promotional_discount': round(uniform(0, 10), 2),
                       'product_classification': product_classifications[
                           randint(0, len(product_classifications) - 1)],
-                      'cost': round(uniform(100, 5000), 2),
+                      'cost': cost_dict[product_id],
                       'start_date': datetime_dict[product_id].strftime(
                           "%Y-%m-%d")}
         records.append(new_record)
@@ -64,7 +68,7 @@ def insert_into_price_table(connection):
         price = round(uniform(100, 5000), 2)
         price_product_unique_id = product_id + '-' + str(price)
         new_record = {'product_id': list(datetime_dict.keys())[index],
-                      'price': price,
+                      'price': (cost_dict[product_id]+randint(0, 50)),
                       'updated_time': (datetime_dict[product_id] + datetime.timedelta(days=randint(1, 1000))).strftime(
                           "%Y-%m-%d"),
                       'active': boolean_value[
