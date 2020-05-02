@@ -4,7 +4,8 @@ from random import randint, uniform
 from psycopg2 import Error, connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
-
+global datetime_dict
+datetime_dict = {}
 def create_product_table(connection):
     cursor = connection.cursor()
     sql_str = "create table if not exists product (product_id VARCHAR(255) PRIMARY KEY ,name VARCHAR(255), description VARCHAR(255), " \
@@ -33,10 +34,12 @@ def insert_into_product_table(connection):
     product_classifications = ['category-A', 'category-B', 'category-C', 'category-D']
     records = []
     for index, product_name in enumerate(product_names):
+        product_id = "p" + str(index)
+        datetime_dict[product_id] = (datetime.datetime.now() - datetime.timedelta(days=randint(1, 1000)))
         new_record = {'elasticity': elasticities[randint(0, len(elasticities) - 1)],
                       'competitive_intensity': competitive_intensities[
                           randint(0, len(competitive_intensities) - 1)],
-                      'product_id': "p" + str(index),
+                      'product_id': list(datetime_dict.keys())[index],
                       'description': "This describes " + product_name,
                       'markup': round(uniform(0, 10), 2),
                       'base_discount': round(uniform(0, 10), 2),
@@ -44,7 +47,7 @@ def insert_into_product_table(connection):
                       'product_classification': product_classifications[
                           randint(0, len(product_classifications) - 1)],
                       'cost': round(uniform(100, 5000), 2),
-                      'start_date': (datetime.datetime.now() - datetime.timedelta(days=randint(1, 1000))).strftime(
+                      'start_date': datetime_dict[product_id].strftime(
                           "%Y-%m-%d")}
         records.append(new_record)
     insert_the_records(connection, cursor, records, 'product')
@@ -60,9 +63,9 @@ def insert_into_price_table(connection):
         product_id = "p" + str(index)
         price = round(uniform(100, 5000), 2)
         price_product_unique_id = product_id + '-' + str(price)
-        new_record = {'product_id': product_id,
+        new_record = {'product_id': list(datetime_dict.keys())[index],
                       'price': price,
-                      'updated_time': (datetime.datetime.now() - datetime.timedelta(days=randint(1, 1000))).strftime(
+                      'updated_time': (datetime_dict[product_id] + datetime.timedelta(days=randint(1, 1000))).strftime(
                           "%Y-%m-%d"),
                       'active': boolean_value[
                           randint(0, len(boolean_value) - 1)],
