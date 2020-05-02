@@ -27,6 +27,13 @@ def create_price_table(connection):
     cursor.close()
 
 
+def create_table_customer(connection):
+    cursor = connection.cursor()
+    sql_str = "create table if not exists customer (customer_id VARCHAR(255) primary key, name VARCHAR(255))"
+    cursor.execute(sql_str)
+    connection.commit()
+    cursor.close()
+
 def insert_into_product_table(connection):
     cursor = connection.cursor()
     with open('product-names', 'r') as f:
@@ -79,6 +86,20 @@ def insert_into_price_table(connection):
     insert_the_records(connection, cursor, records, 'price')
 
 
+def insert_into_customer_table(connection):
+    cursor = connection.cursor()
+    with open('customer-names', 'r') as f:
+        customer_names = f.read().split('\n')
+    records = []
+    for index in range(0, len(customer_names)):
+        new_record = {
+            'customer_id' : "c" + str(index),
+            'name' : customer_names[index]
+        }
+        records.append(new_record)
+    insert_the_records(connection, cursor, records, 'customer')
+
+    
 def insert_the_records(connection, cursor, records, table_name):
     insert_sql_statement = create_insert_records(records, table_name)
     cursor.execute(insert_sql_statement)
