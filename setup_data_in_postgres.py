@@ -56,7 +56,7 @@ def insert_into_price_table(connection):
         product_names = f.read().split('\n')
     boolean_value = ['true', 'false']
     records = []
-    for index, product_name in enumerate(product_names):
+    for index in range(0, len(product_names)):
         product_id = "p" + str(index)
         price = round(uniform(100, 5000), 2)
         price_product_unique_id = product_id + '-' + str(price)
