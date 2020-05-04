@@ -22,6 +22,9 @@ RUN wget http://apachemirror.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.
     mv sqoop-1.4.7.bin__hadoop-2.6.0 /usr/lib/sqoop && \
     rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 
+RUN wget https://jdbc.postgresql.org/download/postgresql-42.2.7.jre7.jar && \
+    mv postgresql-42.2.7.jre7.jar /usr/lib/sqoop/lib
+
 RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt update && apt install -y python
 
 # set environment variables
