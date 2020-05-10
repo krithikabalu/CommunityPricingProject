@@ -1,4 +1,8 @@
+# IDE
+.idea
+.vscode
+
+# Misc
 build
 project
-.idea
 venv
