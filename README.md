@@ -11,5 +11,5 @@
 5. Use sqoop to import data from postgres to hdfs:
 ```sqoop import -Dorg.apache.sqoop.splitter.allow_text_splitter=true --connect "jdbc:postgresql://postgres:5432/pricing?user=postgres&password=password" --as-avrodatafile --target-dir product --table product --split-by product_id```
     - Errors/Resolutions
-        - ```Error: org.apache.avro.reflect.ReflectData.addLogicalTypeConversion(Lorg/apache/avro/Conversion;)V```: *add `-Dmapreduce.job.user.classpath.first=true` next to sqoop import if you get*
-        - ```ERROR tool.ImportTool: Import failed: org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://hadoop-master:9000/user/root/product already exists```: *run `hadoop fs -rm -r /user/root/product`*
+        - ```Error: org.apache.avro.reflect.ReflectData.addLogicalTypeConversion(Lorg/apache/avro/Conversion;)V```: **add `-Dmapreduce.job.user.classpath.first=true` next to sqoop import if you get**
+        - ```ERROR tool.ImportTool: Import failed: org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://hadoop-master:9000/user/root/product already exists```: **run `hadoop fs -rm -r /user/root/product`**
