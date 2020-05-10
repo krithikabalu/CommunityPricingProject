@@ -27,7 +27,7 @@ def create_price_table(connection):
     cursor.close()
 
 
-def create_table_customer(connection):
+def create_customer_table(connection):
     cursor = connection.cursor()
     sql_str = "create table if not exists customer (customer_id VARCHAR(255) primary key, name VARCHAR(255))"
     cursor.execute(sql_str)
@@ -109,7 +109,6 @@ def insert_the_records(connection, cursor, records, table_name):
 
 def create_insert_records(json_array, table_name):
     columns = json_array[0].keys()
-    print("\ncolumns:", columns)
     sql_string = "INSERT INTO {}".format(table_name)
     sql_string = sql_string + " (" + ', '.join(columns) + ")\nVALUES "
     record_list = []
@@ -117,7 +116,6 @@ def create_insert_records(json_array, table_name):
     for i, record in enumerate(json_array):
         values = record.values()
         record = list(values)
-        print(record)
 
         for i, val in enumerate(record):
             if type(val) == str:
@@ -166,6 +164,8 @@ try:
     insert_into_product_table(pricing_connection)
     create_price_table(pricing_connection)
     insert_into_price_table(pricing_connection)
+    create_customer_table(pricing_connection)
+    insert_into_customer_table
     pricing_connection.close()
 
 
