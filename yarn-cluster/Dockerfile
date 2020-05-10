@@ -17,14 +17,17 @@ RUN wget http://apachemirror.wuchna.com/spark/spark-2.4.5/spark-2.4.5-bin-hadoop
     mv spark-2.4.5-bin-hadoop2.7 /usr/local/spark && \
     rm spark-2.4.5-bin-hadoop2.7.tgz
 
+# install sqoop 1.4.7
 RUN wget http://apachemirror.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
     tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
     mv sqoop-1.4.7.bin__hadoop-2.6.0 /usr/lib/sqoop && \
     rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 
+# install postgres 42.2.7
 RUN wget https://jdbc.postgresql.org/download/postgresql-42.2.7.jre7.jar && \
     mv postgresql-42.2.7.jre7.jar /usr/lib/sqoop/lib
 
+# install python and other deps
 RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt update && apt install -y python
 
 # set environment variables
@@ -44,7 +47,7 @@ RUN mkdir -p ~/hdfs/namenode && \
     mkdir -p ~/hdfs/datanode && \
     mkdir $HADOOP_HOME/logs
 
-COPY config/* /tmp/
+COPY yarn-cluster/config/* /tmp/
 
 RUN mv /tmp/ssh_config ~/.ssh/config && \
     mv /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
