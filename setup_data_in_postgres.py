@@ -10,7 +10,7 @@ cost_dict = {}
 
 def create_product_table(connection):
     cursor = connection.cursor()
-    sql_str = "create table if not exists product (product_id VARCHAR(255) PRIMARY KEY ,name VARCHAR(255), description VARCHAR(255), " \
+    sql_str = "create table if not exists product (product_id integer PRIMARY KEY ,name VARCHAR(255), description VARCHAR(255), " \
               "start_date TIMESTAMP, elasticity VARCHAR(255), markup DECIMAL, cost DECIMAL, base_discount DECIMAL, " \
               "promotional_discount DECIMAL, product_classification VARCHAR(255), competitive_intensity VARCHAR(255))"
     cursor.execute(sql_str)
@@ -20,7 +20,7 @@ def create_product_table(connection):
 
 def create_price_table(connection):
     cursor = connection.cursor()
-    sql_str = "create table if not exists price (product_id VARCHAR(255) REFERENCES product(product_id),price DECIMAL, updated_time TIMESTAMP, " \
+    sql_str = "create table if not exists price (product_id integer REFERENCES product(product_id),price DECIMAL, updated_time TIMESTAMP, " \
               "active BOOL, price_product_unique_id VARCHAR(255))"
     cursor.execute(sql_str)
     connection.commit()
@@ -43,7 +43,7 @@ def insert_into_product_table(connection):
     product_classifications = ['category-A', 'category-B', 'category-C', 'category-D']
     records = []
     for index, product_name in enumerate(product_names):
-        product_id = "p" + str(index)
+        product_id = index + 1
         cost = round(uniform(100, 5000), 2)
         cost_dict[product_id] = cost
         datetime_dict[product_id] = (datetime.datetime.now() - datetime.timedelta(days=randint(1, 1000)))
@@ -71,9 +71,9 @@ def insert_into_price_table(connection):
     boolean_value = ['true', 'false']
     records = []
     for index in range(0, len(product_names)):
-        product_id = "p" + str(index)
+        product_id = index + 1
         price = round(uniform(100, 5000), 2)
-        price_product_unique_id = product_id + '-' + str(price)
+        price_product_unique_id = str(product_id) + '-' + str(price)
         new_record = {'product_id': list(datetime_dict.keys())[index],
                       'price': (cost_dict[product_id]+randint(0, 50)),
                       'updated_time': (datetime_dict[product_id] + datetime.timedelta(days=randint(1, 1000))).strftime(
