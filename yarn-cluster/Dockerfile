@@ -27,6 +27,13 @@ RUN wget http://apachemirror.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.
 RUN wget https://jdbc.postgresql.org/download/postgresql-42.2.7.jre7.jar && \
     mv postgresql-42.2.7.jre7.jar /usr/lib/sqoop/lib
 
+# install hive
+RUN wget https://archive.apache.org/dist/hive/hive-2.3.6/apache-hive-2.3.6-bin.tar.gz && tar -xvf apache-hive-2.3.6-bin.tar.gz
+RUN wget http://archive.apache.org/dist/db/derby/db-derby-10.12.1.1/db-derby-10.12.1.1-bin.tar.gz && tar -xvf db-derby-10.12.1.1-bin.tar.gz
+
+# install elasticsearch-hadoop
+RUN wget https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-hadoop/7.0.0/elasticsearch-hadoop-7.0.0.jar
+
 # install python and other deps
 RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt update && apt install -y python
 
@@ -58,6 +65,20 @@ RUN mv /tmp/ssh_config ~/.ssh/config && \
     mv /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
     mv /tmp/start-hadoop.sh ~/start-hadoop.sh && \
     mv /tmp/spark-defaults.conf $SPARK_HOME/conf/spark-defaults.conf
+
+# add required files for elasticsearch using hive
+RUN mv apache-hive-2.3.6-bin /usr/local/hive && \
+    mv db-derby-10.12.1.1-bin /usr/local/derby && \
+    mv elasticsearch-hadoop-7.0.0.jar /usr/local/hive/lib && \
+    cp /usr/local/hive/conf/hive-env.sh.template /usr/local/hive/conf/hive-env.sh && \
+    cp /usr/local/hive/conf/hive-default.xml.template /usr/local/hive/conf/hive-site.xml
+
+# set ennvironment variables for hive
+ENV HIVE_HOME /usr/local/hive
+ENV DERBY_HOME /usr/local/derby
+ENV PATH $PATH:$SQOOP_HOME/bin:$HIVE_HOME/bin:$DERBY_HOME/bin
+ENV CLASSPATH $CLASSPATH:/usr/local/Hadoop/lib/*:.
+ENV CLASSPATH $CLASSPATH:/usr/local/hive/lib/*:.
 
 RUN chmod +x ~/start-hadoop.sh && \
     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
