@@ -1,5 +1,5 @@
 #!/bin/bash
-sh stop.sh
+sh yarn-cluster/stop.sh
 
 docker network create --driver=bridge hadoop
 
@@ -38,3 +38,13 @@ done
 docker exec -it hadoop-master /root/start-hadoop.sh
 docker exec -it hadoop-master hadoop fs -mkdir /spark-logs
 docker exec -it hadoop-master /usr/local/spark/sbin/start-history-server.sh
+
+echo -e "🔎 run elasticsearch"
+docker run --init --network hadoop -d --name elasticsearch -p 9200:9200 blacktop/elasticsearch
+
+echo -e "🎃 run kibana"
+docker run --init --network hadoop -d --name kibana --link elasticsearch -p 5601:5601 blacktop/kibana
+
+echo -e "run hive init"
+docker exec -it hadoop-master schematool -initSchema -dbType derby
+echo ""

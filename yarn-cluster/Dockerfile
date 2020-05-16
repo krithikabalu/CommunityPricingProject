@@ -71,7 +71,9 @@ RUN mv apache-hive-2.3.6-bin /usr/local/hive && \
     mv db-derby-10.12.1.1-bin /usr/local/derby && \
     mv elasticsearch-hadoop-7.0.0.jar /usr/local/hive/lib && \
     cp /usr/local/hive/conf/hive-env.sh.template /usr/local/hive/conf/hive-env.sh && \
-    cp /usr/local/hive/conf/hive-default.xml.template /usr/local/hive/conf/hive-site.xml
+    mv /tmp/hive-site.xml /usr/local/hive/conf/hive-site.xml && \
+    rm apache-hive-2.3.6-bin.tar.gz && \
+    rm db-derby-10.12.1.1-bin.tar.gz
 
 # set ennvironment variables for hive
 ENV HIVE_HOME /usr/local/hive
