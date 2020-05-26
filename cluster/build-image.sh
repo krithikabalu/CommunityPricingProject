@@ -3,4 +3,4 @@
 echo ""
 
 echo -e "💥 build docker hadoop & spark image"
-docker build -t spark-hadoop:latest -f yarn-cluster/Dockerfile .
+docker build -t spark-hadoop:latest -f cluster/Dockerfile .

@@ -1,8 +1,7 @@
-docker cp ~/Data/Region_Grocery hadoop-master:/root/
-docker exec -it hadoop-master hadoop fs -copyFromLocal Region_Grocery/ /
 docker exec -it hadoop-master hadoop fs -rm -r /Output
-docker cp src/edu/tesco.py hadoop-master:/root/
+docker cp src/edu/pricing.py hadoop-master:/root/
 docker exec -it hadoop-master spark-submit \
+ --packages org.apache.spark:spark-avro_2.11:2.4.5 \
  --deploy-mode cluster \
   --num-executors 3 \
-   /root/tesco.py hdfs://hadoop-master:9000/Region_Grocery/ hdfs://hadoop-master:9000/Output/
+   /root/pricing.py hdfs://hadoop-master:9000/user/root/product/ hdfs://hadoop-master:9000/Output/

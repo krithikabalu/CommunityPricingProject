@@ -1,5 +1,5 @@
 #!/bin/bash
-sh yarn-cluster/stop.sh
+sh cluster/stop.sh
 
 docker network create --driver=bridge hadoop
 
