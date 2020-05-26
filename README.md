@@ -17,6 +17,9 @@ community-pricing-project
 
 **Data Processing**
 1. Run ```./run.sh``` to run the spark job to generate the output
+2. To view output 
+    `docker exec -it hadoop-master hadoop fs -copyToLocal /Output .`
+    `docker cp hadoop-master:/root/Output .`
 
 **Data Visualization**
 0. Run ```docker exec -it hadoop-master bash``` if you are outside the container
