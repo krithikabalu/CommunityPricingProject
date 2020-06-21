@@ -38,6 +38,10 @@ def insert_into_product_table(connection):
     cursor = connection.cursor()
     with open('product-names', 'r') as f:
         product_names = f.read().split('\n')
+    product_names.append('')
+    product_names.append('')
+    product_names.append('')
+    product_names.append('')
     elasticities = ['highly-elastic', 'medium-elastic', 'medium-inelastic', 'highly-inelastic']
     competitive_intensities = ['highly-competitive', 'competitive', 'captive', 'highly-captive']
     product_classifications = ['category-A', 'category-B', 'category-C', 'category-D']
@@ -48,6 +52,7 @@ def insert_into_product_table(connection):
         cost_dict[product_id] = cost
         datetime_dict[product_id] = (datetime.datetime.now() - datetime.timedelta(days=randint(1, 1000)))
         new_record = {'elasticity': elasticities[randint(0, len(elasticities) - 1)],
+                      'name': product_name,
                       'competitive_intensity': competitive_intensities[
                           randint(0, len(competitive_intensities) - 1)],
                       'product_id': list(datetime_dict.keys())[index],
