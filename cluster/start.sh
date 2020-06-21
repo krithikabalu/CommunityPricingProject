@@ -26,8 +26,9 @@ while [ $i -lt $N ]
 do
 	echo "start hadoop-slave$i container..."
 	port=$(( 8040 + $i ))
+	port2=$(( 50075 + $i ))
 	docker run -itd \
-			-p $port:8042 \
+			-p $port:8042 -p $port2:50075\
 	                --net=hadoop \
 	                --name hadoop-slave$i \
 	                --hostname hadoop-slave$i \

@@ -38,10 +38,7 @@ def insert_into_product_table(connection):
     cursor = connection.cursor()
     with open('product-names', 'r') as f:
         product_names = f.read().split('\n')
-    product_names.append('')
-    product_names.append('')
-    product_names.append('')
-    product_names.append('')
+    product_names.extend(['']*4)
     elasticities = ['highly-elastic', 'medium-elastic', 'medium-inelastic', 'highly-inelastic']
     competitive_intensities = ['highly-competitive', 'competitive', 'captive', 'highly-captive']
     product_classifications = ['category-A', 'category-B', 'category-C', 'category-D']
