@@ -35,9 +35,9 @@ RUN wget http://archive.apache.org/dist/db/derby/db-derby-10.12.1.1/db-derby-10.
 RUN wget https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-hadoop/7.0.0/elasticsearch-hadoop-7.0.0.jar
 
 # install python and other deps
-RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt update && apt install -y python && apt install -y python3-pip
+RUN apt install -y software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt update && apt install -y python && apt install -y python-pip
 RUN apt-get install -y libgfortran3
-RUN pip3 install numpy
+RUN pip install numpy
 # set environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 
 ENV HADOOP_HOME=/usr/local/hadoop 
