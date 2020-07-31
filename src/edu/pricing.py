@@ -1,6 +1,6 @@
-from pyspark.sql import SparkSession
-from pyspark.sql.types import DoubleType
 import sys
+
+from pyspark.sql import SparkSession
 
 spark = SparkSession.builder. \
     appName("Pricing").getOrCreate()
@@ -8,9 +8,12 @@ spark = SparkSession.builder. \
 
 def execute():
     data = spark.read.format("avro").load(sys.argv[1])
-    result = data.withColumn("cost", data["cost"].cast(DoubleType()))
-    agg_result = result.groupBy("elasticity").avg("cost")
-    agg_result.write.csv(sys.argv[2])
+    data.withColumn("gross_price",
+                    data["cost"] *
+                    (1 + data["markup"] / 100) /
+                    (1 - (data["base_discount"] + data["promotional_discount"]) / 100)) \
+        .write \
+        .csv(sys.argv[2], header=True)
 
 
 execute()

@@ -148,6 +148,7 @@ try:
     init_connection = connect(
         user="postgres",
         host="localhost",
+        port=5431,
         password="password",
         connect_timeout=3
     )
@@ -158,6 +159,7 @@ try:
         dbname="pricing",
         user="postgres",
         host="localhost",
+        port=5431,
         password="password",
         connect_timeout=3
     )
