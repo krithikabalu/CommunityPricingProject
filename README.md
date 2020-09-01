@@ -26,9 +26,15 @@ community-pricing-project
 1. Hive home directory - `cd $HIVE_HOME`
 2. Run `hive` and execute the following statements sequentially,
 
-- `CREATE EXTERNAL TABLE product_hdfs (product_id int, description string, cost string, markup string) STORED AS AVRO LOCATION '/user/root/product';`
+- `CREATE EXTERNAL TABLE product_hdfs (product_id int, description string, cost string, markup string) STORED AS AVRO LOCATION '/user/root/product';` or
 
-- `CREATE EXTERNAL TABLE product_es (id bigint, description string, cost float, markup float) STORED BY 'org.elasticsearch.hadoop.hive.EsStorageHandler' TBLPROPERTIES('es.resource' ='pricing/product','es.nodes'= 'elasticsearch');`
+- `CREATE EXTERNAL TABLE product_hdfs (product_id bigint, description string, cost float, gross_price float) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' lines terminated by '\n' STORED AS TEXTFILE LOCATION '/user/root/output/product'
+`
+
+- `CREATE EXTERNAL TABLE product_es (id bigint, description string, cost float, markup float) STORED BY 'org.elasticsearch.hadoop.hive.EsStorageHandler' TBLPROPERTIES('es.resource' ='pricing/product','es.nodes'= 'elasticsearch');` or
+
+- `CREATE EXTERNAL TABLE product_es (product_id bigint, description string, cost float, gross_price float) STORED BY 'org.elasticsearch.hadoop.hive.EsStorageHandler' TBLPROPERTIES('es.resource' ='pricing/product','es.nodes'= 'elasticsearch');
+`
 
 - `INSERT OVERWRITE TABLE product_es SELECT * FROM product_hdfs;`
 
