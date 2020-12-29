@@ -5,7 +5,7 @@ WORKDIR /root
 # install openssh-server, openjdk and wget
 RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget vim
 
-# install hadoop 2.7.7
+# install hadoop
 RUN wget https://mirrors.estointernet.in/apache/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz&& \
     tar -xzvf hadoop-2.10.1.tar.gz && \
     mv hadoop-2.10.1 /usr/local/hadoop && \
