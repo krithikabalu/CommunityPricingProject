@@ -5,11 +5,11 @@ WORKDIR /root
 # install openssh-server, openjdk and wget
 RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget vim
 
-# install hadoop 2.7.7
-RUN wget https://mirrors.estointernet.in/apache/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz&& \
-    tar -xzvf hadoop-2.7.7.tar.gz && \
-    mv hadoop-2.7.7 /usr/local/hadoop && \
-    rm hadoop-2.7.7.tar.gz
+# install hadoop
+RUN wget https://mirrors.estointernet.in/apache/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz&& \
+    tar -xzvf hadoop-2.10.1.tar.gz && \
+    mv hadoop-2.10.1 /usr/local/hadoop && \
+    rm hadoop-2.10.1.tar.gz
 
 # install spark
 RUN wget https://archive.apache.org/dist/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz && \
