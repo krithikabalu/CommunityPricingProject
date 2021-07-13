@@ -18,7 +18,7 @@ RUN wget https://archive.apache.org/dist/spark/spark-2.4.5/spark-2.4.5-bin-hadoo
     rm spark-2.4.5-bin-hadoop2.7.tgz
 
 # install sqoop 1.4.7
-RUN wget http://apachemirror.wuchna.com/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
+RUN wget http://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
     tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz && \
     mv sqoop-1.4.7.bin__hadoop-2.6.0 /usr/lib/sqoop && \
     rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
