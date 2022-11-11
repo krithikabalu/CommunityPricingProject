@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyspark = "==2.4.5"
+pyspark = "==3.2.2"
 "psycopg2-binary" = "*"
 numpy = "*"
 findspark = "*"
